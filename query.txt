@@ -1,0 +1,47 @@
+
+a:
+select * from dbo.Property inner join OwnerProperty on Property.id = OwnerProperty.PropertyId where OwnerId=1426
+
+b1:
+select value from dbo.Property inner join OwnerProperty on Property.id = OwnerProperty.PropertyId 
+inner join PropertyHomeValue on Property.id=PropertyHomeValue.PropertyId
+where OwnerId=1426
+
+c:
+Select total_payment=sum(CASE when Amount*DATEDIFF(DAY,StartDate,(CASE when EndDate is NULL then GetDate() else EndDate END))/CASE
+    WHEN FrequencyType=1 THEN 7
+    WHEN FrequencyType=2 THEN 14
+    WHEN FrequencyType=3 THEN 28
+END>0 then (Amount*DATEDIFF(DAY,StartDate,(CASE when EndDate is NULL then GetDate() else EndDate END))/CASE
+    WHEN FrequencyType=1 THEN 7
+    WHEN FrequencyType=2 THEN 14
+    WHEN FrequencyType=3 THEN 28
+END)
+else 0
+END)
+from PropertyRepayment
+
+
+c2:
+Select PropertyId,Amount,StartDate,EndDate,FrequencyType
+,total_payment=CASE when Amount*DATEDIFF(DAY,StartDate,(CASE when EndDate is NULL then GetDate() else EndDate END))/CASE
+    WHEN FrequencyType=1 THEN 7
+    WHEN FrequencyType=2 THEN 14
+    WHEN FrequencyType=3 THEN 28
+END>0 then (Amount*DATEDIFF(DAY,StartDate,(CASE when EndDate is NULL then GetDate() else EndDate END))/CASE
+    WHEN FrequencyType=1 THEN 7
+    WHEN FrequencyType=2 THEN 14
+    WHEN FrequencyType=3 THEN 28
+END)
+else 0
+END
+from PropertyRepayment
+
+
+
+d:
+SELECT *
+  FROM Job where JobStatusId=1
+
+
+
